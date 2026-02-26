@@ -14,17 +14,17 @@ document.getElementById("keyB").addEventListener("click", function() { playSound
 
 document.addEventListener("keydown", function(event) {
     if (event.key === "a") {
-        playSound("C");
+        playSound("C5");
     } else if (event.key === "s") {
-        playSound("D");
+        playSound("D5");
     } else if (event.key === "d") {
-        playSound("E");
+        playSound("E5");
     } else if (event.key === "f") {
-        playSound("F");
+        playSound("F5");
     } else if (event.key === "g") {
-        playSound("G");
+        playSound("G5");
     } else if (event.key === "h") {
-        playSound("A");
+        playSound("A4");
     } else if (event.key === "j") {
         playSound("B");
     }
