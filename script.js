@@ -1,86 +1,103 @@
+const activeSounds = {};
+
 function playSound(note) {
-            console.log("Playing:", note);
-            let audio = new Audio(`sounds/${note}.mp3`);
-            audio.play();
+
+    if (activeSounds[note]) return;
+
+    console.log("Playing:", note);
+    let audio = new Audio(`sounds/${note}.mp3`);
+    
+    audio.loop = true; 
+    audio.play();
+
+    activeSounds[note] = audio;
 }
 
-document.getElementById("keyC").addEventListener("click", function() { 
-    this.classList.add("active"); // Klasse hinzufügen
+function stopSound(note) {
+    if (activeSounds[note]) {
+        console.log("Stopping:", note);
+        activeSounds[note].pause();
+        activeSounds[note].currentTime = 0; 
+        delete activeSounds[note]; 
+    }
+}
+
+document.getElementById("keyC").addEventListener("mousedown", function() { 
+    this.classList.add("active"); 
     playSound("C5"); 
-    setTimeout(() => { this.classList.remove("active"); }, 150); // Nach 150ms entfernen
 });
-
-document.getElementById("keyD").addEventListener("click", function() { 
-    this.classList.add("active");
+document.getElementById("keyD").addEventListener("mousedown", function() { 
+    this.classList.add("active"); 
     playSound("D5"); 
-    setTimeout(() => { this.classList.remove("active"); }, 150);
 });
-
-document.getElementById("keyE").addEventListener("click", function() { 
-    this.classList.add("active");
-    playSound("E5"); 
-    setTimeout(() => { this.classList.remove("active"); }, 150);
+document.getElementById("keyE").addEventListener("mouseup", function() { 
+    this.classList.remove("active"); 
+    stopSound("E5"); 
 });
-
-document.getElementById("keyF").addEventListener("click", function() { 
-    this.classList.add("active");
-    playSound("F5");
-    setTimeout(() => { this.classList.remove("active"); }, 150);
+document.getElementById("keyF").addEventListener("mouseup", function() { 
+    this.classList.remove("active"); 
+    stopSound("F5"); 
 });
-
-document.getElementById("keyG").addEventListener("click", function() { 
-    this.classList.add("active");
-    playSound("G5");
-    setTimeout(() => { this.classList.remove("active"); }, 150);
+document.getElementById("keyG").addEventListener("mouseup", function() { 
+    this.classList.remove("active"); 
+    stopSound("G5"); 
 });
-
-document.getElementById("keyA").addEventListener("click", function() { 
-    this.classList.add("active");
-    playSound("A4");
-    setTimeout(() => { this.classList.remove("active"); }, 150);
+document.getElementById("keyA").addEventListener("mouseup", function() { 
+    this.classList.remove("active"); 
+    stopSound("A4"); 
 });
-
-document.getElementById("keyB").addEventListener("click", function() { 
-    this.classList.add("active");
-    playSound("B");
-    setTimeout(() => { this.classList.remove("active"); }, 150);
+document.getElementById("keyB").addEventListener("mouseup", function() { 
+    this.classList.remove("active"); 
+    stopSound("B"); 
 });
 
 document.addEventListener("keydown", function(event) {
+    if (event.repeat) return; 
     if (event.key === "a") {
         playSound("C5");
-        const el = document.getElementById("keyC");
-        el.classList.add("active");
-        setTimeout(() => el.classList.remove("active"), 150);
+        document.getElementById("keyC").classList.add("active");
     } else if (event.key === "s") {
         playSound("D5");
-        const el = document.getElementById("keyD");
-        el.classList.add("active");
-        setTimeout(() => el.classList.remove("active"), 150);
+        document.getElementById("keyD").classList.add("active");
     } else if (event.key === "d") {
         playSound("E5");
-        const el = document.getElementById("keyE");
-        el.classList.add("active");
-        setTimeout(() => el.classList.remove("active"), 150);
+        document.getElementById("keyE").classList.add("active");
     } else if (event.key === "f") {
         playSound("F5");
-        const el = document.getElementById("keyF");
-        el.classList.add("active");
-        setTimeout(() => el.classList.remove("active"), 150);
+        document.getElementById("keyF").classList.add("active");
     } else if (event.key === "g") {
         playSound("G5");
-        const el = document.getElementById("keyG");
-        el.classList.add("active");
-        setTimeout(() => el.classList.remove("active"), 150);
+        document.getElementById("keyG").classList.add("active");
     } else if (event.key === "h") {
         playSound("A4");
-        const el = document.getElementById("keyA");
-        el.classList.add("active");
-        setTimeout(() => el.classList.remove("active"), 150);
+        document.getElementById("keyA").classList.add("active");
     } else if (event.key === "j") {
         playSound("B");
-        const el = document.getElementById("keyB");
-        el.classList.add("active");
-        setTimeout(() => el.classList.remove("active"), 150);
+        document.getElementById("keyB").classList.add("active");
+    }
+});
+
+document.addEventListener("keyup", function(event) {
+    if (event.key === "a") {
+        stopSound("C5");
+        document.getElementById("keyC").classList.remove("active");
+    } else if (event.key === "s") {
+        stopSound("D5");
+        document.getElementById("keyD").classList.remove("active");
+    } else if (event.key === "d") {
+        stopSound("E5");
+        document.getElementById("keyE").classList.remove("active");
+    } else if (event.key === "f") {
+        stopSound("F5");
+        document.getElementById("keyF").classList.remove("active");
+    } else if (event.key === "g") {
+        stopSound("G5");
+        document.getElementById("keyG").classList.remove("active");
+    } else if (event.key === "h") {
+        stopSound("A4");
+        document.getElementById("keyA").classList.remove("active");
+    } else if (event.key === "j") {
+        stopSound("B");
+        document.getElementById("keyB").classList.remove("active");
     }
 });
