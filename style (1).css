@@ -10,3 +10,9 @@
     align-items: flex-end; 
     justify-content: center;
 }
+
+.key:active {
+    background-color: rgb(235, 221, 184);
+    transform: scale(0.95);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
