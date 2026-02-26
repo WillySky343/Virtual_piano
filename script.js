@@ -4,12 +4,12 @@ function playSound(note) {
             audio.play();
 }
 
-document.getElementById("keyC").addEventListener("click", function() { playSound("C"); });
-document.getElementById("keyD").addEventListener("click", function() { playSound("D"); });
-document.getElementById("keyE").addEventListener("click", function() { playSound("E"); });
-document.getElementById("keyF").addEventListener("click", function() { playSound("F"); });
-document.getElementById("keyG").addEventListener("click", function() { playSound("G"); });
-document.getElementById("keyA").addEventListener("click", function() { playSound("A"); });
+document.getElementById("keyC").addEventListener("click", function() { playSound("C5"); });
+document.getElementById("keyD").addEventListener("click", function() { playSound("D5"); });
+document.getElementById("keyE").addEventListener("click", function() { playSound("E5"); });
+document.getElementById("keyF").addEventListener("click", function() { playSound("F5"); });
+document.getElementById("keyG").addEventListener("click", function() { playSound("G5"); });
+document.getElementById("keyA").addEventListener("click", function() { playSound("A4"); });
 document.getElementById("keyB").addEventListener("click", function() { playSound("B"); });
 
 document.addEventListener("keydown", function(event) {
