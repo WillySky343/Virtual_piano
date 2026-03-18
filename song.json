@@ -1,4 +1,16 @@
 {
-  "title": "Alle meine Entchen",
-  "notes": ["C5", "D5", "E5", "F5", "G5", "G5", "A4", "A4", "A4", "A4", "G5"]
+  "songs": [
+    {
+      "title": "Alle meine Entchen",
+      "notes": ["C5", "D5", "E5", "F5", "G5", "G5", "A4", "A4", "A4", "A4", "G5"]
+    },
+    {
+      "title": "Hänschen Klein",
+      "notes": ["G5", "E5", "E5", "F5", "D5", "D5", "C5", "D5", "E5", "F5", "G5", "G5", "G5"]
+    },
+    {
+      "title": "Bruder Jakob",
+      "notes": ["C5", "D5", "E5", "C5", "C5", "D5", "E5", "C5", "E5", "F5", "G5", "E5", "F5", "G5"]
+    }
+  ]
 }

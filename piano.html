@@ -10,16 +10,23 @@
 <body>
     <div class="container text-center my-5">
         <h1>Virtual Piano Game</h1>
-        
-        <div class="mb-4">
-            <button id="btn-load" class="btn btn-primary">Song 1 laden (L)</button>
-            <button id="btn-reset" class="btn btn-danger">Reset (R)</button>
-        </div>
 
-        <div id="melody-container" class="mb-4 p-3 border rounded bg-light" style="min-height: 60px;">
+ <div id="melody-container" class="mb-4 p-3 border rounded bg-light" style="min-height: 60px;">
             <p class="text-muted">Noch kein Song geladen. Klicke auf "Song laden".</p>
             <div id="melody-display"></div>
         </div>
+        
+       <div class="mb-4">
+    <label for="song-select">Wähle ein Lied:</label>
+    <select id="song-select" class="form-control d-inline-block w-auto mx-2">
+        <option value="">-- Bitte wählen --</option>
+        <option value="0">Song 1</option>
+        <option value="1">Song 2</option>
+        <option value="2">Song 3</option>
+    </select>
+    <button id="btn-reset" class="btn btn-danger">Reset (R)</button>
+</div>
+
 
         <p>Nutze die Tastatur oder klicke auf die Tasten:</p>
         <ul class="list-inline">

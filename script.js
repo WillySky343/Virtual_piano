@@ -1,24 +1,30 @@
+// ==========================================
 // TASK 1: Piano Keys als Objekte definieren
+// ==========================================
 const pianoKeys = [
     { note: "C5", keyboardKey: "a", elementId: "keyC" },
     { note: "D5", keyboardKey: "s", elementId: "keyD" },
     { note: "E5", keyboardKey: "d", elementId: "keyE" },
     { note: "F5", keyboardKey: "f", elementId: "keyF" },
     { note: "G5", keyboardKey: "g", elementId: "keyG" },
-    { note: "A4", keyboardKey: "h", elementId: "keyA" },
+    { note: "A4", keyboardKey: "h", elementId: "keyA" }, // Falls A5 vorhanden, hier ändern
     { note: "B",  keyboardKey: "j", elementId: "keyB" }
 ];
 
-let loadedNotes = []; // Hier speichern wir die Noten aus der JSON
+let allSongs = []; // Speicher für alle Lieder aus der JSON
+let loadedNotes = []; // Die aktuell ausgewählten Noten
 
-// --- FUNKTIONEN ---
+// ==========================================
+// KERN-FUNKTIONEN
+// ==========================================
 
-// Sound abspielen & Visuelles Feedback
+// 1. Sound abspielen & Visuelles Feedback
 function playSound(noteName) {
+    console.log("Spiele Note:", noteName);
     const audio = new Audio(`sounds/${noteName}.mp3`);
     audio.play();
 
-    // Finde das zugehörige Objekt für das visuelle Feedback
+    // Visuelles Feedback: Finde die Taste im Klavier
     const keyConfig = pianoKeys.find(k => k.note === noteName);
     if (keyConfig) {
         const el = document.getElementById(keyConfig.elementId);
@@ -30,49 +36,95 @@ function playSound(noteName) {
 }
 
 // TASK 2: Dynamic Note Loading (Fetch API)
-async function loadMelody() {
+async function initApp() {
     try {
         const response = await fetch('song.json');
+        if (!response.ok) throw new Error("JSON konnte nicht geladen werden");
+        
         const data = await response.json();
-        loadedNotes = data.notes;
-        renderMelody(); // Anzeige aktualisieren
+        allSongs = data.songs;
+        console.log("Songs erfolgreich geladen:", allSongs);
     } catch (error) {
         console.error("Fehler beim Laden der JSON:", error);
+        document.getElementById("melody-display").innerText = "Fehler beim Laden der Lieder.";
     }
 }
 
-// TASK 3: User Interaction (Clickable Notes)
+// TASK 3: User Interaction (Anzeige der Noten-Buttons)
 function renderMelody() {
-    const container = document.getElementById("melody-display");
-    container.innerHTML = ""; // Container leeren
+    const display = document.getElementById("melody-display");
+    display.innerHTML = ""; // Container leeren
 
     loadedNotes.forEach((note) => {
         const btn = document.createElement("button");
         btn.innerText = note;
-        btn.className = "btn btn-outline-dark m-1";
-        // Klick auf Note in der Liste spielt Sound ab
+        btn.className = "btn btn-info m-1"; // Blaue interaktive Buttons
+        
+        // Klick auf die Note in der Liste spielt den Sound ab
         btn.addEventListener("click", () => playSound(note));
-        container.appendChild(btn);
+        
+        display.appendChild(btn);
     });
 }
 
 // TASK 4: Reset Functionality
 function resetGame() {
     loadedNotes = [];
-    document.getElementById("melody-display").innerHTML = "Melodie gelöscht.";
+    document.getElementById("melody-display").innerHTML = "";
     
-    // Alle Tasten visuell zurücksetzen (falls noch was leuchtet)
+    // Den Text wieder auf den Standard-Zustand setzen
+    const infoText = document.querySelector("#melody-container p");
+    infoText.innerText = "Noch kein Song geladen. Wähle ein Lied aus.";
+    infoText.classList.add("text-muted");
+    infoText.style.fontWeight = "normal";
+
+    document.getElementById("song-select").value = ""; 
+    
     pianoKeys.forEach(k => {
         const el = document.getElementById(k.elementId);
         if (el) el.classList.remove("active");
     });
-    
-    console.log("Spiel zurückgesetzt.");
 }
 
-// --- EVENT LISTENERS ---
+// ==========================================
+// EVENT LISTENERS (Steuerung)
+// ==========================================
 
-// Maus-Klicks auf das Klavier
+// Dropdown-Auswahl (Lied laden)
+document.getElementById("song-select").addEventListener("change", function(event) {
+    const songIndex = event.target.value;
+    const infoText = document.querySelector("#melody-container p"); // Den Text-Absatz finden
+
+    if (songIndex !== "") {
+        const selectedSong = allSongs[songIndex];
+        loadedNotes = selectedSong.notes;
+        
+        // NEU: Zeige den Titel des ausgewählten Liedes an
+        infoText.innerText = "Aktuelles Lied: " + selectedSong.title;
+        infoText.classList.remove("text-muted"); // Grau entfernen
+        infoText.style.fontWeight = "bold";      // Fett drucken
+        
+        renderMelody();
+    } else {
+        resetGame();
+    }
+});
+
+// Tastatur-Steuerung (Task 3)
+document.addEventListener("keydown", (event) => {
+    const pressedKey = event.key.toLowerCase();
+
+    // 1. Klavier spielen
+    const pianoKey = pianoKeys.find(k => k.keyboardKey === pressedKey);
+    if (pianoKey) {
+        playSound(pianoKey.note);
+    }
+
+    // 2. Shortcuts
+    if (pressedKey === "r") resetGame();
+});
+
+// Maus-Klick auf die Klaviertasten
 pianoKeys.forEach(keyObj => {
     const el = document.getElementById(keyObj.elementId);
     if (el) {
@@ -80,21 +132,8 @@ pianoKeys.forEach(keyObj => {
     }
 });
 
-// Tastatur-Eingaben
-document.addEventListener("keydown", (event) => {
-    const keyName = event.key.toLowerCase();
-    
-    // 1. Piano spielen (Task 1 & 3)
-    const foundKey = pianoKeys.find(k => k.keyboardKey === keyName);
-    if (foundKey) {
-        playSound(foundKey.note);
-    }
-
-    // 2. Shortcuts für Steuerung (Task 3)
-    if (keyName === "r") resetGame();
-    if (keyName === "l") loadMelody(); // 'L' zum Laden der Melodie
-});
-
-// Reset-Button im HTML verknüpfen
+// Reset-Button
 document.getElementById("btn-reset").addEventListener("click", resetGame);
-document.getElementById("btn-load").addEventListener("click", loadMelody);
+
+// START: App beim Laden initialisieren
+initApp();
