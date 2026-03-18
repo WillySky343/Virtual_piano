@@ -32,7 +32,7 @@ function playSound(noteName) {
 // TASK 2: Dynamic Note Loading (Fetch API)
 async function loadMelody() {
     try {
-        const response = await fetch('songs.json');
+        const response = await fetch('song.json');
         const data = await response.json();
         loadedNotes = data.notes;
         renderMelody(); // Anzeige aktualisieren
