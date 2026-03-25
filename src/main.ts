@@ -1,9 +1,11 @@
+// Task 3: Interface
 interface IPianoKey {
     note: string;
     keyboardKey: string;
     elementId: string;
 }
 
+// Task 3: Typed Class
 class PianoKey implements IPianoKey {
     public note: string;
     public keyboardKey: string;
@@ -24,6 +26,7 @@ class PianoKey implements IPianoKey {
     }
 }
 
+// Task 2: Type Annotations
 const pianoKeys: PianoKey[] = [
     new PianoKey("C5", "a", "keyC"),
     new PianoKey("D5", "s", "keyD"),
@@ -36,7 +39,7 @@ const pianoKeys: PianoKey[] = [
 
 function playSound(noteName: string): void {
     const audio = new Audio(`sounds/${noteName}.mp3`);
-    audio.play().catch(() => console.warn(`Sound für ${noteName} fehlt.`));
+    audio.play().catch(() => console.warn(`Sound ${noteName} fehlt.`));
 
     const keyConfig = pianoKeys.find(k => k.note === noteName);
     if (keyConfig) {
@@ -44,19 +47,14 @@ function playSound(noteName: string): void {
     }
 }
 
+// Typed Event Listeners
 document.addEventListener("keydown", (event: KeyboardEvent): void => {
     const pressedKey = event.key.toLowerCase();
     const found = pianoKeys.find(k => k.keyboardKey === pressedKey);
-    if (found) {
-        playSound(found.note);
-    }
+    if (found) playSound(found.note);
 });
 
 pianoKeys.forEach(key => {
     const el = document.getElementById(key.elementId);
-    if (el) {
-        el.addEventListener("click", (): void => playSound(key.note));
-    }
+    el?.addEventListener("click", (): void => playSound(key.note));
 });
-
-console.log("Piano Initialized.");

@@ -1,17 +1,34 @@
-<div class="container text-center my-5">
-    <h1>Virtual Piano</h1>
-    
-    <p>Nutze die Tastatur (A, S, D, F, G, H, J) oder klicke auf die Tasten:</p>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Virtual Piano</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style (1).css">
+</head>
+<body>
+    <div class="container text-center my-5">
+        <h1 class="mb-4">Virtual Piano</h1>
+        
+        <div class="alert alert-secondary d-inline-block shadow-sm mb-4">
+            <p class="mb-0"><strong>Nutze die Tastatur oder klicke auf die Tasten:</strong></p>
+            <small class="text-muted">A - C | S - D | D - E | F - F | G - G | H - A | J - B</small>
+        </div>
 
-    <div id="piano" class="d-flex justify-content-center mb-5">
-        <div class="key" id="keyC">C</div>
-        <div class="key" id="keyD">D</div>
-        <div class="key" id="keyE">E</div>
-        <div class="key" id="keyF">F</div>
-        <div class="key" id="keyG">G</div>
-        <div class="key" id="keyA">A</div>
-        <div class="key" id="keyB">B</div>
+        <div class="piano-wrapper">
+            <div id="piano" class="d-flex justify-content-center">
+                <div class="key" id="keyC"><span>C</span></div>
+                <div class="key" id="keyD"><span>D</span></div>
+                <div class="key" id="keyE"><span>E</span></div>
+                <div class="key" id="keyF"><span>F</span></div>
+                <div class="key" id="keyG"><span>G</span></div>
+                <div class="key" id="keyA"><span>A</span></div>
+                <div class="key" id="keyB"><span>B</span></div>
+            </div>
+        </div>
     </div>
-</div>
 
-<script src="main.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
