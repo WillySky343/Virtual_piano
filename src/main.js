@@ -78,9 +78,13 @@ function resetGame() {
 }
 songSelect?.addEventListener("change", (event) => {
     const target = event.target;
-    const songIndex = parseInt(target.value);
-    if (!isNaN(songIndex)) {
+    const songIndex = Number(target.value);
+    if (Number.isInteger(songIndex) && songIndex >= 0 && songIndex < allSongs.length) {
         const selectedSong = allSongs[songIndex];
+        if (!selectedSong) {
+            resetGame();
+            return;
+        }
         loadedNotes = selectedSong.notes;
         const infoText = document.querySelector("#melody-container p");
         if (infoText) {
