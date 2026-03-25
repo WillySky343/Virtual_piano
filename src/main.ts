@@ -1,12 +1,13 @@
-interface ISong {
-    title: string;
-    notes: string[];
-}
-
-class PianoKey {
+interface IPianoKey {
     note: string;
     keyboardKey: string;
     elementId: string;
+}
+
+class PianoKey implements IPianoKey {
+    public note: string;
+    public keyboardKey: string;
+    public elementId: string;
 
     constructor(note: string, keyboardKey: string, elementId: string) {
         this.note = note;
@@ -14,7 +15,7 @@ class PianoKey {
         this.elementId = elementId;
     }
 
-    visualFeedback(): void {
+    public triggerVisual(): void {
         const el = document.getElementById(this.elementId);
         if (el) {
             el.classList.add("active");
@@ -33,96 +34,29 @@ const pianoKeys: PianoKey[] = [
     new PianoKey("B",  "j", "keyB")
 ];
 
-let allSongs: ISong[] = [];
-let loadedNotes: string[] = [];
-
-const melodyDisplay = document.getElementById("melody-display") as HTMLDivElement;
-const songSelect = document.getElementById("song-select") as HTMLSelectElement;
-const resetBtn = document.getElementById("btn-reset") as HTMLButtonElement;
-
 function playSound(noteName: string): void {
     const audio = new Audio(`sounds/${noteName}.mp3`);
-    audio.play().catch(err => console.error("Audio Fehler:", err));
+    audio.play().catch(() => console.warn(`Sound für ${noteName} fehlt.`));
 
     const keyConfig = pianoKeys.find(k => k.note === noteName);
     if (keyConfig) {
-        keyConfig.visualFeedback();
+        keyConfig.triggerVisual();
     }
 }
-
-async function initApp(): Promise<void> {
-    try {
-        const response = await fetch('song.json');
-        if (!response.ok) throw new Error("JSON Fehler");
-        const data = await response.json();
-        allSongs = data.songs;
-    } catch (error) {
-        console.error("Initialisierungsfehler:", error);
-    }
-}
-
-function renderMelody(): void {
-    if (!melodyDisplay) return;
-    melodyDisplay.innerHTML = "";
-
-    loadedNotes.forEach((note: string) => {
-        const btn = document.createElement("button");
-        btn.innerText = note;
-        btn.className = "btn btn-info m-1";
-        btn.addEventListener("click", () => playSound(note));
-        melodyDisplay.appendChild(btn);
-    });
-}
-
-function resetGame(): void {
-    loadedNotes = [];
-    if (melodyDisplay) melodyDisplay.innerHTML = "";
-    if (songSelect) songSelect.value = "";
-    
-    const infoText = document.querySelector("#melody-container p") as HTMLParagraphElement;
-    if (infoText) {
-        infoText.innerText = "Noch kein Song geladen. Wähle ein Lied aus.";
-        infoText.classList.add("text-muted");
-        infoText.style.fontWeight = "normal";
-    }
-}
-
-songSelect?.addEventListener("change", (event: Event): void => {
-    const target = event.target as HTMLSelectElement;
-    const songIndex = Number(target.value);
-
-    if (Number.isInteger(songIndex) && songIndex >= 0 && songIndex < allSongs.length) {
-        const selectedSong = allSongs[songIndex];
-        if (!selectedSong) {
-            resetGame();
-            return;
-        }
-        loadedNotes = selectedSong.notes;
-        
-        const infoText = document.querySelector("#melody-container p") as HTMLParagraphElement;
-        if (infoText) {
-            infoText.innerText = "Aktuelles Lied: " + selectedSong.title;
-            infoText.classList.remove("text-muted");
-            infoText.style.fontWeight = "bold";
-        }
-        renderMelody();
-    } else {
-        resetGame();
-    }
-});
 
 document.addEventListener("keydown", (event: KeyboardEvent): void => {
     const pressedKey = event.key.toLowerCase();
-    const foundKey = pianoKeys.find(k => k.keyboardKey === pressedKey);
-    if (foundKey) playSound(foundKey.note);
-    if (pressedKey === "r") resetGame();
+    const found = pianoKeys.find(k => k.keyboardKey === pressedKey);
+    if (found) {
+        playSound(found.note);
+    }
 });
 
-pianoKeys.forEach(keyObj => {
-    const el = document.getElementById(keyObj.elementId);
-    el?.addEventListener("click", () => playSound(keyObj.note));
+pianoKeys.forEach(key => {
+    const el = document.getElementById(key.elementId);
+    if (el) {
+        el.addEventListener("click", (): void => playSound(key.note));
+    }
 });
 
-resetBtn?.addEventListener("click", resetGame);
-
-initApp();
+console.log("Piano Initialized.");

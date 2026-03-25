@@ -1,55 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtual Piano Game</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style (1).css">
-</head>
-<body>
-    <div class="container text-center my-5">
-        <h1>Virtual Piano Game</h1>
+<div class="container text-center my-5">
+    <h1>Virtual Piano</h1>
+    
+    <p>Nutze die Tastatur (A, S, D, F, G, H, J) oder klicke auf die Tasten:</p>
 
- <div id="melody-container" class="mb-4 p-3 border rounded bg-light" style="min-height: 60px;">
-            <p class="text-muted">Noch kein Song geladen. Klicke auf "Song laden".</p>
-            <div id="melody-display"></div>
-        </div>
-        
-       <div class="mb-4">
-    <label for="song-select">Wähle ein Lied:</label>
-    <select id="song-select" class="form-control d-inline-block w-auto mx-2">
-        <option value="">-- Bitte wählen --</option>
-        <option value="0">Song 1</option>
-        <option value="1">Song 2</option>
-        <option value="2">Song 3</option>
-    </select>
-    <button id="btn-reset" class="btn btn-danger">Reset (R)</button>
+    <div id="piano" class="d-flex justify-content-center mb-5">
+        <div class="key" id="keyC">C</div>
+        <div class="key" id="keyD">D</div>
+        <div class="key" id="keyE">E</div>
+        <div class="key" id="keyF">F</div>
+        <div class="key" id="keyG">G</div>
+        <div class="key" id="keyA">A</div>
+        <div class="key" id="keyB">B</div>
+    </div>
 </div>
 
-
-        <p>Nutze die Tastatur oder klicke auf die Tasten:</p>
-        <ul class="list-inline">
-            <li class="list-inline-item"><strong>A</strong> - C</li>
-            <li class="list-inline-item"><strong>S</strong> - D</li>
-            <li class="list-inline-item"><strong>D</strong> - E</li>
-            <li class="list-inline-item"><strong>F</strong> - F</li>
-            <li class="list-inline-item"><strong>G</strong> - G</li>
-            <li class="list-inline-item"><strong>H</strong> - A</li>
-            <li class="list-inline-item"><strong>J</strong> - B</li>
-        </ul>
-
-        <div id="piano" class="d-flex justify-content-center mb-5">
-            <div class="key" id="keyC">C</div>
-            <div class="key" id="keyD">D</div>
-            <div class="key" id="keyE">E</div>
-            <div class="key" id="keyF">F</div>
-            <div class="key" id="keyG">G</div>
-            <div class="key" id="keyA">A</div>
-            <div class="key" id="keyB">B</div>
-        </div>
-    </div>
-
-    <script src="main.js"></script>
-</body>
-</html>
+<script src="main.js"></script>
